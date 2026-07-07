@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ドラクル 社内ルールブック</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-base:#1c1e22;
+    --bg-base-2:#26292e;
+    --paper:#eae8e2;
+    --paper-raised:#f4f2ed;
+    --ink:#23262b;
+    --ink-soft:#5b5e63;
+    --hairline:#d8d5cc;
+    --roadline:#e8b93b;
+    --driver:#3b5ba5;
+    --driver-bg:#e9edf6;
+    --requester:#3f7d5c;
+    --requester-bg:#e8f1ec;
+    --ops:#7a4569;
+    --ops-bg:#f0e9ee;
+    --warn:#b3452f;
+    --warn-bg:#f8e9e5;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Noto Sans JP', sans-serif;
+    line-height:1.75;
+  }
+  .mono{font-family:'JetBrains Mono', monospace;}
+  header.hero{
+    background:linear-gradient(180deg,var(--bg-base) 0%,var(--bg-base-2) 100%);
+    color:#f4f2ed;
+    padding:40px 24px 0 24px;
+    position:relative;
+  }
+  .hero-inner{max-width:1000px;margin:0 auto;padding-bottom:28px;}
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    color:var(--roadline);
+    text-transform:uppercase;
+  }
+  h1.title{
+    font-family:'Shippori Mincho', serif;
+    font-weight:700;
+    font-size:34px;
+    margin:10px 0 6px 0;
+    letter-spacing:.02em;
+  }
+  .subtitle{color:#c9c7c0;font-size:14px;margin:0 0 20px 0;}
+  .doc-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:6px;}
+  .doc-badge{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    color:#e8e6df;
+    border:1px solid #454850;
+    border-radius:3px;
+    padding:5px 10px;
+    background:rgba(255,255,255,0.03);
+  }
+  .roaddash{
+    height:0;
+    border-top:3px dashed var(--roadline);
+    opacity:.55;
+    margin:0;
+  }
+  nav.tabs{
+    max-width:1000px;
+    margin:0 auto;
+    display:flex;
+    gap:2px;
+    padding-top:6px;
+  }
+  .tab-btn{
+    flex:1;
+    background:transparent;
+    border:none;
+    color:#a9a7a0;
+    font-family:'Noto Sans JP', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    padding:16px 8px 14px 8px;
+    cursor:pointer;
+    position:relative;
+    transition:color .15s ease;
+  }
+  .tab-btn small{
+    display:block;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:500;
+    font-size:11px;
+    letter-spacing:.08em;
+    margin-top:3px;
+    color:#7d7b76;
+  }
+  .tab-btn.active{color:#f4f2ed;}
+  .tab-btn.active::after{
+    content:"";
+    position:absolute;
+    left:8px;right:8px;bottom:0;
+    height:3px;
+    background-image:repeating-linear-gradient(90deg,var(--roadline) 0 10px, transparent 10px 18px);
+  }
+  .tab-btn[data-tab="driver"].active{color:var(--driver);}
+  .tab-btn[data-tab="driver"].active small{color:var(--driver);}
+  .tab-btn[data-tab="requester"].active{color:var(--requester);}
+  .tab-btn[data-tab="requester"].active small{color:var(--requester);}
+  .tab-btn[data-tab="ops"].active{color:var(--ops);}
+  .tab-btn[data-tab="ops"].active small{color:var(--ops);}
+
+  main{max-width:1000px;margin:0 auto;padding:26px 24px 80px 24px;}
+
+  .toolbar{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+  }
+  #search{
+    flex:1;
+    min-width:220px;
+    padding:11px 14px;
+    border-radius:6px;
+    border:1px solid var(--hairline);
+    background:var(--paper-raised);
+    font-family:'Noto Sans JP', sans-serif;
+    font-size:14px;
+    color:var(--ink);
+  }
+  #search:focus{outline:2px solid var(--roadline);outline-offset:1px;}
+  .progress-pill{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    background:var(--paper-raised);
+    border:1px solid var(--hairline);
+    border-radius:20px;
+    padding:8px 14px;
+    white-space:nowrap;
+  }
+
+  .stakeholder-intro{
+    border-radius:8px;
+    padding:16px 18px;
+    margin-bottom:20px;
+    font-size:14px;
+  }
+  .stakeholder-intro.driver{background:var(--driver-bg);color:#1f3363;}
+  .stakeholder-intro.requester{background:var(--requester-bg);color:#1f4433;}
+  .stakeholder-intro.ops{background:var(--ops-bg);color:#3e2438;}
+  .stakeholder-intro b{display:block;font-family:'Shippori Mincho', serif;font-size:15.5px;margin-bottom:4px;}
+
+  .category{
+    background:var(--paper-raised);
+    border:1px solid var(--hairline);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .category-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:15px 18px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .cat-num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:#fff;
+    width:26px;height:26px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .driver .cat-num{background:var(--driver);}
+  .requester .cat-num{background:var(--requester);}
+  .ops .cat-num{background:var(--ops);}
+  .category-head h2{
+    font-family:'Shippori Mincho', serif;
+    font-size:17px;
+    margin:0;
+    flex:1;
+  }
+  .chev{
+    font-size:12px;
+    color:var(--ink-soft);
+    transition:transform .15s ease;
+  }
+  .category.open .chev{transform:rotate(90deg);}
+  .category-body{
+    display:none;
+    padding:0 18px 16px 18px;
+    border-top:1px solid var(--hairline);
+  }
+  .category.open .category-body{display:block;padding-top:10px;}
+
+  .subcat{margin-bottom:16px;}
+  .subcat:last-child{margin-bottom:4px;}
+  .subcat h3{
+    font-size:13.5px;
+    font-weight:700;
+    margin:0 0 8px 0;
+    color:var(--ink-soft);
+    letter-spacing:.02em;
+  }
+  ul.items{list-style:none;margin:0;padding:0;}
+  li.item{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:7px 0;
+    border-bottom:1px dashed var(--hairline);
+    font-size:14px;
+  }
+  li.item:last-child{border-bottom:none;}
+  li.item input[type="checkbox"]{
+    margin-top:3px;
+    flex-shrink:0;
+    width:15px;height:15px;
+    accent-color:var(--roadline);
+    cursor:pointer;
+  }
+  li.item.checked span{color:var(--ink-soft);text-decoration:line-through;text-decoration-color:var(--hairline);}
+  li.item .item-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    color:#fff;
+    padding:2px 6px;
+    border-radius:3px;
+    flex-shrink:0;
+    margin-top:1px;
+  }
+  .tag-warn{background:var(--warn);}
+  .tag-note{background:#8b8776;}
+
+  .note-callout{
+    background:var(--bg-base);
+    color:#eeece6;
+    border-radius:8px;
+    padding:20px 22px;
+    margin:26px 0;
+    border-left:4px dashed var(--roadline);
+  }
+  .note-callout .eyebrow{margin-bottom:8px;display:block;}
+  .note-callout h3{
+    font-family:'Shippori Mincho', serif;
+    font-size:16px;
+    margin:0 0 10px 0;
+    color:#fff;
+  }
+  .note-callout p{font-size:13.5px;color:#cfcdc6;margin:0 0 10px 0;}
+  .note-callout p:last-child{margin-bottom:0;}
+
+  footer{
+    max-width:1000px;
+    margin:0 auto;
+    padding:0 24px 40px 24px;
+    color:var(--ink-soft);
+    font-size:12px;
+  }
+  footer .hairline{border-top:1px solid var(--hairline);margin:20px 0 16px 0;}
+
+  .hidden{display:none !important;}
+  .no-match{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:14px;
+    padding:40px 0;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">DRAKURU / OPERATIONS REFERENCE</span>
+    <h1 class="title">ドラクル 社内ルールブック</h1>
+    <p class="subtitle">ドライバー・ご依頼店・運営の三者が、自分の立場と役割を一読で確認できる統合版です。</p>
+    <div class="doc-badges">
+      <span class="doc-badge">業務マニュアル 2026-06-22版（法人・個人）</span>
+      <span class="doc-badge">利用規約 260629MP（2026-06-29改訂）</span>
+      <span class="doc-badge">プライバシーポリシー（2024-09-15改訂）</span>
+    </div>
+  </div>
+  <div class="roaddash"></div>
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="driver">ドライバー<small>DRIVER</small></button>
+    <button class="tab-btn" data-tab="requester">ご依頼店<small>REQUESTER</small></button>
+    <button class="tab-btn" data-tab="ops">運営（サポートセンター）<small>OPERATIONS</small></button>
+  </nav>
+</header>
+
+<main>
+  <div class="toolbar">
+    <input type="text" id="search" placeholder="キーワードで検索（例：キャンセル、保険、事前連絡）">
+    <div class="progress-pill" id="progressPill">確認 0 / 0</div>
+  </div>
+
+  <div class="note-callout">
+    <span class="eyebrow">運営からの視点整理メモ</span>
+    <h3>ルールブック運用にあたっての確認ポイント</h3>
+    <p>プライバシーポリシー第2条9号・第3条8号では、マーケティング目的での情報開示・公表が認められています。ご依頼店やドライバーへの説明でこの点にどこまで触れているか、一度整理しておくと安心です。同意取得のタイミングとセットで案内できると、後から「聞いていない」という食い違いを防ぎやすくなります。</p>
+    <p>法人版マニュアルの受付時間表記の誤記は訂正済みとして記録されていますが、訂正が現場にいつ共有されたかまでは別途記録が必要です。ルールブックには「訂正済み」という結論だけでなく、共有日も残しておくと、後から見返すときに役立ちます。</p>
+  </div>
+
+  <div id="panel-driver" class="panel"></div>
+  <div id="panel-requester" class="panel hidden"></div>
+  <div id="panel-ops" class="panel hidden"></div>
+
+
+  <div class="no-match hidden" id="noMatch">該当する項目が見つかりませんでした。キーワードを変えてお試しください。</div>
+</main>
+
+<footer>
+  <div class="hairline"></div>
+  現行版の管理について。本ルールブックは株式会社トレスの現行公式文書（業務マニュアル2026年6月22日版、利用規約2026年6月29日改訂260629MP、プライバシーポリシー2024年9月15日改訂）をもとに、社内確認用として整理したものです。規約本体および原本マニュアルの内容が優先されます。チェック状況はこの端末に保存され、他の閲覧者とは共有されません。
+</footer>
+
+<script>
+const DATA = {
+  driver: {
+    label: "ドライバー",
+    accent: "driver",
+    intro: {
+      title: "ドライバーの皆さまへ",
+      text: "ドラクルは仕事内容の決定やトラブルの最終判断そのものには関与しません。取引の当事者はご依頼店とドライバーです。だからこそ、事前連絡や報告をこまめに行うことが、ご自身の報酬と信用を守る一番の近道になります。"
+    },
+    categories: [
+      {
+        title: "アカウント・登録",
+        subcats: [
+          {
+            h: "新規登録の流れ",
+            items: [
+              "利用規約・プライバシーポリシーへの同意後、法人か個人かを選択します",
+              "パスワードは8文字以上、英数字と特殊文字を組み合わせて設定します",
+              "個人版は入金先の銀行口座をプルダウンから選択します（手入力はできません）",
+              { t: "本人写真は顔がはっきり分かるものが必須です。サングラス・マスク・強い加工がある写真は承認されません", tag: "warn" },
+              "登録内容はサポートセンターの承認をもってログインが可能になります"
+            ]
+          }
+        ]
+      },
+      {
+        title: "業務の進め方",
+        subcats: [
+          {
+            h: "契約関係の理解",
+            items: [
+              "取引の当事者はご依頼店とドライバーであり、ドラクルは情報提供の場という位置づけです",
+              "契約するかどうかの最終判断はすべてご依頼店側が行います"
+            ]
+          },
+          {
+            h: "契約後のキャンセルに関する注意",
+            items: [
+              { t: "契約締結後でも、引取り前日までご依頼店都合でキャンセルとなる場合があります。アプリのこまめな確認をおすすめします", tag: "note" }
+            ]
+          },
+          {
+            h: "事前連絡の徹底",
+            items: [
+              "引取日の2日前と前日に、オーナーへの事前連絡が必須です",
+              "確認する内容は引取日時・住所、車種、車検の有無、自走可否です",
+              "電話でつながらない場合はSMSを送り、それでも不通のときは店舗担当者に確認します",
+              { t: "事前連絡やサポートセンターへの報告がない場合、キャンセルポリシーの内容にかかわらず報酬が支払われないことがあります", tag: "warn" }
+            ]
+          },
+          {
+            h: "業務開始と現地でのトラブル対応",
+            items: [
+              "業務開始ボタンの押し忘れに注意します",
+              { t: "オーナー不在・車検切れ・故障・ダブルブッキングなど、現地到着後のキャンセルは独断で判断せず、担当者へ連絡のうえ公式LINEへ報告します", tag: "warn" }
+            ]
+          },
+          {
+            h: "車両受取確認書の取り扱い",
+            items: [
+              "オーナーのサインを2部いただき、1部はオーナー、1部は店舗へ渡します",
+              "無人引取りの場合は担当者名を記入し、無人引取りである旨のメモを添えて1部をオーナーのポストへ投函します"
+            ]
+          }
+        ]
+      },
+      {
+        title: "禁止行為と身だしなみ",
+        subcats: [
+          {
+            h: "禁止行為（即時契約解除の対象）",
+            items: [
+              { t: "業務を行う意思のない受注、飲酒運転・交通違反、依頼外車両の搬送、指定経路以外の走行", tag: "warn" },
+              { t: "車両引取り後の無許可保管（運営やリクエスターの許可なく保管すること）", tag: "warn" },
+              { t: "燃料の誤給油など、走行不能を引き起こす行為（免責や修理費用の負担が発生する場合があります）", tag: "warn" },
+              { t: "正当な理由のないキャンセルの繰り返し、暴言・威圧的な言動、車検証等に不備がある車両の運転、ハラスメント行為", tag: "warn" }
+            ]
+          },
+          {
+            h: "身だしなみ規定",
+            items: [
+              "髪色は落ち着いたブラウン（トーン見本8番程度まで）とし、金髪・アッシュ・明るいメッシュは避けます",
+              "入れ墨は長袖・長ズボン等で完全に覆います。隠しきれない場合は絆創膏等でカバーします",
+              "派手なネイルや立体装飾は避けます",
+              "ビーチサンダル・タンクトップ・短パン・ミニスカート・ダメージジーンズ・パンプス・ロングブーツでの業務は避けます"
+            ]
+          }
+        ]
+      },
+      {
+        title: "保険と事故対応",
+        subcats: [
+          {
+            h: "保険の補償範囲",
+            items: [
+              "保険は三井住友海上、契約者は株式会社トレスです（証券番号 NC15732146）",
+              "対人・対物賠償は無制限です（対物には5万円の免責があります）",
+              "搭乗者傷害保険があり、死亡・後遺障害の場合2000万円等が補償されます",
+              "車両保険は時価での補償で、免責は10万円（軽四輪の中古車は3万円）です",
+              { t: "免責金額および補償限度額を超える部分はドライバー負担となります", tag: "note" }
+            ]
+          },
+          {
+            h: "保険が適用されないケース",
+            items: [
+              { t: "警察への届出がなく事故証明がない場合、登録ドライバー以外が運転した場合、無免許運転、酒気帯び運転、車検切れ車両での事故・故障", tag: "warn" }
+            ]
+          },
+          {
+            h: "緊急時対応の手順",
+            items: [
+              "ケガ人がいれば119番で救護を要請します",
+              "二次災害の防止を行います",
+              "警察へ連絡します（110番）",
+              "相手方と目撃者を確認します",
+              "保険会社（三井住友海上 0120-258-365、証券番号NC15732146、契約者名株式会社トレス）へ連絡します"
+            ]
+          },
+          {
+            h: "よくあるトラブル事例",
+            items: [
+              "燃料の誤給油は全額請求の対象になります",
+              "単独事故は保険が適用されますが、免責金額はドライバー負担です",
+              "故障やレッカー対応でJAF費用が発生した場合、いったん立替払いのうえ領収書を提出し、後日トレスが精算します（現地払いは現金かクレジットカードのみです）"
+            ]
+          }
+        ]
+      },
+      {
+        title: "報酬・支払い",
+        subcats: [
+          {
+            h: "締め日と支払日",
+            items: [
+              "毎月15日締め、27日払いです（土日祝日の場合は前営業日払いになります）"
+            ]
+          },
+          {
+            h: "前払い申請制度（個人版のみ）",
+            items: [
+              "入金希望日の4営業日前までに申請します",
+              "手数料は1100円です",
+              { t: "毎月14日から16日は申請ができません", tag: "note" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  requester: {
+    label: "ご依頼店",
+    accent: "requester",
+    intro: {
+      title: "ご依頼店の皆さまへ",
+      text: "ドラクルは情報提供の場であり、契約するかどうか、業務内容をどう進めるかはご依頼店とドライバーの間で決まります。運営が行うのはトラブル発生時の状況整理と橋渡しであり、契約内容そのものへの介入や最終判断は行いません。"
+    },
+    categories: [
+      {
+        title: "サービスの位置づけ",
+        subcats: [
+          {
+            h: "契約主体とドラクルの役割",
+            items: [
+              "取引の当事者はご依頼店とドライバーであり、ドラクルは情報提供の場です",
+              "業務内容の決定やトラブル発生時の最終判断は、ドラクル運営ではなく契約当事者間で行っていただきます"
+            ]
+          }
+        ]
+      },
+      {
+        title: "ドライバーとの連携",
+        subcats: [
+          {
+            h: "事前連絡への対応",
+            items: [
+              "引取日の2日前・前日にドライバーから確認の連絡が入ります",
+              "引取日時・住所、車種、車検の有無、自走可否について正確な回答をお願いします"
+            ]
+          },
+          {
+            h: "契約後キャンセル時の対応",
+            items: [
+              { t: "契約締結後、引取り前日までであればご依頼店都合でのキャンセルが可能です。ドライバーへは早めのご連絡をお願いします", tag: "note" }
+            ]
+          },
+          {
+            h: "車両受取確認書への対応",
+            items: [
+              "オーナーのサインを2部ご用意いただきます（1部オーナー保管、1部店舗保管）",
+              "無人引取りの場合は、担当者名の記入と無人引取りである旨のメモが添付されたものが1部ポストに投函されます"
+            ]
+          }
+        ]
+      },
+      {
+        title: "キャンセルポリシーの適用範囲",
+        subcats: [
+          {
+            h: "報酬支払いに関わる取り扱い",
+            items: [
+              { t: "ドライバーからの事前連絡やサポートセンターへの報告がない場合、キャンセルポリシーの内容にかかわらず報酬が支払われないケースがあります", tag: "note" },
+              "現地到着後のトラブル（オーナー不在、車検切れ、故障、ダブルブッキング等）は、ドライバーが独断で判断せず担当者と運営へ連絡する仕組みになっています"
+            ]
+          }
+        ]
+      },
+      {
+        title: "トラブル発生時の役割",
+        subcats: [
+          {
+            h: "事故・故障発生時の対応分担",
+            items: [
+              "事故や故障発生時、警察・保険会社への連絡はドライバーが行います",
+              "ご依頼店には状況確認へのご協力をお願いすることがあります"
+            ]
+          },
+          {
+            h: "燃料誤給油等が発生した場合",
+            items: [
+              "燃料の誤給油等は全額請求の対象となります"
+            ]
+          }
+        ]
+      },
+      {
+        title: "個人情報の取り扱い",
+        subcats: [
+          {
+            h: "情報提供の範囲について",
+            items: [
+              { t: "本サービス提供を目的として、お客様に関する取得情報を他の利用者へ提供する場合があります（プライバシーポリシー第3条7号）", tag: "note" },
+              "個人情報の取り扱いに関するご相談は、サポートセンターまたは個人情報担当窓口までご連絡いただけます"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  ops: {
+    label: "運営（サポートセンター）",
+    accent: "ops",
+    intro: {
+      title: "運営（サポートセンター）向け",
+      text: "三者の立場を混同させないことが、トラブルを未然に防ぐ一番の土台です。ドラクルは情報提供の場であり、契約判断やトラブルの最終判断には関与しません。この立場を、問い合わせ対応の一つひとつで一貫して守ります。"
+    },
+    categories: [
+      {
+        title: "三者間の立場整理",
+        subcats: [
+          {
+            h: "ドラクルの役割の確認",
+            items: [
+              "ドラクルは情報提供の場であり、契約判断・業務内容の決定・トラブルの最終判断には関与しません",
+              "問い合わせ対応は状況確認と橋渡しを目的とし、詰問や断定にならないよう構成します"
+            ]
+          },
+          {
+            h: "問い合わせ受付時間",
+            items: [
+              { t: "法人版・個人版ともに受付時間は9:00〜19:00です。法人版マニュアル記載の「10:00〜19:00」は誤記であり、訂正済みとして記録されています", tag: "warn" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "個人情報保護方針の遵守",
+        subcats: [
+          {
+            h: "取得情報の利用目的（プライバシーポリシー第2条）",
+            items: [
+              "本サービスの提供、内容の改良・新サービス開発のため",
+              "新機能・更新情報・キャンペーン等のご案内、メンテナンス等必要な連絡のため",
+              "お問い合わせへの回答（本人確認を含む）、利用状況のご報告のため",
+              "アンケート・取材協力の依頼、利用履歴の調査・分析のため",
+              { t: "マーケティング目的での、ウェブサイト・メールマガジン・営業用資料等における開示または公表のため", tag: "note" },
+              "規約違反者や不正・不当な目的での利用者の特定、利用お断りのため"
+            ]
+          },
+          {
+            h: "第三者提供が可能なケース（第3条）",
+            items: [
+              "人の生命・身体・財産の保護に必要で、本人の同意取得が困難な場合",
+              "業務委託や事業承継に伴い個人情報が提供される場合",
+              "本サービス提供を目的として他の利用者へ情報提供する場合",
+              "決済代行業者・業務委託先等、本サービスの運営に必要な第三者への提供",
+              "広告配信事業者等への提供、その他法令で認められる場合"
+            ]
+          },
+          {
+            h: "開示・訂正・利用停止への対応（第5〜7条）",
+            items: [
+              "開示請求には遅滞なく対応し、開示しない場合はその旨を遅滞なく通知します",
+              "誤った情報については、所定の手続きに従い訂正または削除を行います",
+              "利用目的の範囲を超えた取り扱いや不正取得を理由とする利用停止等の請求には、調査のうえ遅滞なく対応します"
+            ]
+          },
+          {
+            h: "苦情・相談窓口（第11・12条）",
+            items: [
+              "個人情報の取り扱いに関する苦情・相談は適切かつ迅速に対応します",
+              "個人情報担当窓口：株式会社トレス（東京都港区南青山2-2-15 ウィン青山942／Tel 03-6868-0942）"
+            ]
+          }
+        ]
+      },
+      {
+        title: "事故・トラブル対応フロー",
+        subcats: [
+          {
+            h: "単独事故対応の基本フロー",
+            items: [
+              "119番（負傷者対応）→ 二次災害防止 → 110番（警察）→ 相手方確認 → 目撃者確認 → 保険会社連絡の順で対応します",
+              "保険会社連絡先：三井住友海上 0120-258-365、証券番号NC15732146、契約者名株式会社トレス、保険代理店は株式会社コアリスクレデンスです"
+            ]
+          },
+          {
+            h: "立替・精算フロー",
+            items: [
+              "JAF費用等は現場でドライバーが一時立替払いし、領収書提出後にトレスが精算します",
+              "現地払いは現金またはクレジットカードのみでの対応です"
+            ]
+          }
+        ]
+      },
+      {
+        title: "ドキュメント管理",
+        subcats: [
+          {
+            h: "現行版一覧",
+            items: [
+              "業務マニュアル（法人用・個人用）：2026年6月22日版",
+              "利用規約：260629MP（2026年6月29日改訂、2025年版は失効）",
+              "プライバシーポリシー：2024年9月15日改訂"
+            ]
+          },
+          {
+            h: "法人版・個人版の意図的な差異",
+            items: [
+              "受付時間表記の誤記訂正（法人版も9:00〜19:00が正）",
+              "前払い申請制度は個人版のみ（法人は請求書ベースの精算のため対象外）",
+              "無許可保管の文言差異（法人版「運営の許可なく」／個人版「リクエスターの許可なく」）"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+};
+
+let checks = {};
+let STORAGE_KEY = "drakuru-rulebook-checks";
+
+async function loadChecks(){
+  try{
+    const res = await window.storage.get(STORAGE_KEY, false);
+    checks = res ? JSON.parse(res.value) : {};
+  }catch(e){
+    checks = {};
+  }
+}
+async function saveChecks(){
+  try{
+    await window.storage.set(STORAGE_KEY, JSON.stringify(checks), false);
+  }catch(e){
+    console.error("保存に失敗しました", e);
+  }
+}
+
+function itemId(tabKey, ci, si, ii){
+  return tabKey + "-" + ci + "-" + si + "-" + ii;
+}
+
+function renderPanel(tabKey){
+  const data = DATA[tabKey];
+  const container = document.getElementById("panel-" + tabKey);
+  let html = "";
+
+  html += `<div class="stakeholder-intro ${data.accent}"><b>${data.intro.title}</b>${data.intro.text}</div>`;
+
+  data.categories.forEach((cat, ci) => {
+    html += `<div class="category ${data.accent}" data-cat>
+      <div class="category-head">
+        <div class="cat-num">${ci+1}</div>
+        <h2>${cat.title}</h2>
+        <div class="chev">▶</div>
+      </div>
+      <div class="category-body">`;
+
+    cat.subcats.forEach((sc, si) => {
+      html += `<div class="subcat" data-subcat><h3>${sc.h}</h3><ul class="items">`;
+      sc.items.forEach((it, ii) => {
+        const text = typeof it === "string" ? it : it.t;
+        const tag = typeof it === "string" ? null : it.tag;
+        const id = itemId(tabKey, ci, si, ii);
+        const isChecked = !!checks[id];
+        html += `<li class="item ${isChecked ? "checked" : ""}" data-item data-search="${text}">
+          <input type="checkbox" data-id="${id}" ${isChecked ? "checked" : ""}>
+          ${tag === "warn" ? '<span class="item-tag tag-warn">要注意</span>' : ""}
+          ${tag === "note" ? '<span class="item-tag tag-note">確認事項</span>' : ""}
+          <span>${text}</span>
+        </li>`;
+      });
+      html += `</ul></div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+function attachHandlers(){
+  document.querySelectorAll(".category-head").forEach(head => {
+    head.addEventListener("click", () => {
+      head.parentElement.classList.toggle("open");
+    });
+  });
+  document.querySelectorAll("input[type=checkbox][data-id]").forEach(cb => {
+    cb.addEventListener("change", async () => {
+      const id = cb.dataset.id;
+      checks[id] = cb.checked;
+      cb.closest("li").classList.toggle("checked", cb.checked);
+      await saveChecks();
+      updateProgress();
+    });
+  });
+}
+
+function updateProgress(){
+  const activeTab = document.querySelector(".tab-btn.active").dataset.tab;
+  const boxes = document.querySelectorAll(`#panel-${activeTab} input[type=checkbox]`);
+  let total = boxes.length, done = 0;
+  boxes.forEach(b => { if(b.checked) done++; });
+  document.getElementById("progressPill").textContent = `確認 ${done} / ${total}`;
+}
+
+function switchTab(tabKey){
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tabKey));
+  document.querySelectorAll(".panel").forEach(p => p.classList.add("hidden"));
+  document.getElementById("panel-" + tabKey).classList.remove("hidden");
+  updateProgress();
+  applySearch();
+}
+
+function applySearch(){
+  const q = document.getElementById("search").value.trim().toLowerCase();
+  const activeTab = document.querySelector(".tab-btn.active").dataset.tab;
+  const panel = document.getElementById("panel-" + activeTab);
+  let anyVisible = false;
+
+  panel.querySelectorAll("[data-cat]").forEach(cat => {
+    let catHasMatch = false;
+    cat.querySelectorAll("[data-subcat]").forEach(sc => {
+      let scHasMatch = false;
+      sc.querySelectorAll("[data-item]").forEach(item => {
+        const text = item.dataset.search.toLowerCase();
+        const match = q === "" || text.includes(q);
+        item.classList.toggle("hidden", !match);
+        if(match){ scHasMatch = true; }
+      });
+      sc.classList.toggle("hidden", !scHasMatch);
+      if(scHasMatch){ catHasMatch = true; }
+    });
+    cat.classList.toggle("hidden", !catHasMatch);
+    if(catHasMatch){
+      anyVisible = true;
+      if(q !== ""){ cat.classList.add("open"); }
+    }
+  });
+
+  document.getElementById("noMatch").classList.toggle("hidden", anyVisible || q === "");
+}
+
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+});
+document.getElementById("search").addEventListener("input", applySearch);
+
+(async function init(){
+  await loadChecks();
+  renderPanel("driver");
+  renderPanel("requester");
+  renderPanel("ops");
+  attachHandlers();
+  document.querySelector('.category[data-cat]')?.classList.add("open");
+  document.querySelectorAll('#panel-driver .category')[0]?.classList.add("open");
+  updateProgress();
+})();
+</script>
+
+</body>
+</html>
