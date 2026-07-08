@@ -24,6 +24,7 @@
     --ops-bg:#f0e9ee;
     --warn:#b3452f;
     --warn-bg:#f8e9e5;
+    --danger:#b3452f;
   }
   *{box-sizing:border-box;}
   body{
@@ -127,7 +128,7 @@
   }
   #search{
     flex:1;
-    min-width:220px;
+    min-width:200px;
     padding:11px 14px;
     border-radius:6px;
     border:1px solid var(--hairline);
@@ -146,6 +147,29 @@
     border-radius:20px;
     padding:8px 14px;
     white-space:nowrap;
+  }
+  .edit-toggle{
+    font-family:'Noto Sans JP', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    border:1px solid var(--hairline);
+    background:var(--paper-raised);
+    color:var(--ink-soft);
+    border-radius:20px;
+    padding:8px 16px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:background .15s ease, color .15s ease;
+  }
+  .edit-toggle.on{
+    background:var(--bg-base);
+    color:#f4f2ed;
+    border-color:var(--bg-base);
+  }
+  .save-note{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    font-family:'JetBrains Mono', monospace;
   }
 
   .stakeholder-intro{
@@ -196,6 +220,7 @@
     font-size:12px;
     color:var(--ink-soft);
     transition:transform .15s ease;
+    flex-shrink:0;
   }
   .category.open .chev{transform:rotate(90deg);}
   .category-body{
@@ -207,12 +232,19 @@
 
   .subcat{margin-bottom:16px;}
   .subcat:last-child{margin-bottom:4px;}
-  .subcat h3{
+  .subcat-head{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin:0 0 8px 0;
+  }
+  .subcat-head h3{
     font-size:13.5px;
     font-weight:700;
-    margin:0 0 8px 0;
+    margin:0;
     color:var(--ink-soft);
     letter-spacing:.02em;
+    flex:1;
   }
   ul.items{list-style:none;margin:0;padding:0;}
   li.item{
@@ -231,7 +263,8 @@
     accent-color:var(--roadline);
     cursor:pointer;
   }
-  li.item.checked span{color:var(--ink-soft);text-decoration:line-through;text-decoration-color:var(--hairline);}
+  li.item.checked > span.item-text{color:var(--ink-soft);text-decoration:line-through;text-decoration-color:var(--hairline);}
+  .item-text{flex:1;}
   li.item .item-tag{
     font-family:'JetBrains Mono', monospace;
     font-size:10.5px;
@@ -240,6 +273,7 @@
     border-radius:3px;
     flex-shrink:0;
     margin-top:1px;
+    white-space:nowrap;
   }
   .tag-warn{background:var(--warn);}
   .tag-note{background:#8b8776;}
@@ -249,7 +283,7 @@
     color:#eeece6;
     border-radius:8px;
     padding:20px 22px;
-    margin:26px 0;
+    margin:0 0 22px 0;
     border-left:4px dashed var(--roadline);
   }
   .note-callout .eyebrow{margin-bottom:8px;display:block;}
@@ -278,6 +312,93 @@
     font-size:14px;
     padding:40px 0;
   }
+
+  /* --- edit mode controls --- */
+  .edit-only{display:none;}
+  body.edit-mode .edit-only{display:inline-flex;}
+  body.edit-mode .edit-only.block{display:block;}
+
+  .icon-btn{
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    color:var(--ink-soft);
+    font-size:13px;
+    padding:4px 6px;
+    border-radius:4px;
+    line-height:1;
+    flex-shrink:0;
+  }
+  .icon-btn:hover{background:var(--hairline);}
+  .icon-btn.danger:hover{background:var(--warn-bg);color:var(--danger);}
+
+  .inline-edit-row{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    flex-wrap:wrap;
+    padding:8px 0;
+  }
+  .inline-edit-row input[type="text"], .inline-edit-row select{
+    font-family:'Noto Sans JP', sans-serif;
+    font-size:13.5px;
+    padding:7px 10px;
+    border-radius:5px;
+    border:1px solid var(--hairline);
+    background:#fff;
+    color:var(--ink);
+  }
+  .inline-edit-row input[type="text"]{flex:1;min-width:160px;}
+  .btn-small{
+    font-family:'Noto Sans JP', sans-serif;
+    font-size:12.5px;
+    font-weight:700;
+    border-radius:5px;
+    border:1px solid var(--hairline);
+    background:#fff;
+    padding:7px 12px;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .btn-small.primary{background:var(--bg-base);color:#fff;border-color:var(--bg-base);}
+  .btn-small.danger{background:var(--warn);color:#fff;border-color:var(--warn);}
+
+  .add-row{
+    margin-top:8px;
+  }
+  .add-link{
+    font-family:'Noto Sans JP', sans-serif;
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--ink-soft);
+    background:transparent;
+    border:1px dashed var(--hairline);
+    border-radius:6px;
+    padding:8px 12px;
+    cursor:pointer;
+    width:100%;
+    text-align:left;
+  }
+  .add-link:hover{background:var(--paper);}
+
+  .confirm-row{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    font-size:12.5px;
+    color:var(--danger);
+  }
+
+  .item-row-edit{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    flex-wrap:wrap;
+    padding:7px 0;
+    border-bottom:1px dashed var(--hairline);
+  }
+  .item-row-edit .item-text-view{flex:1;font-size:14px;}
+  .item-controls{display:flex;gap:2px;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -304,8 +425,10 @@
 <main>
   <div class="toolbar">
     <input type="text" id="search" placeholder="キーワードで検索（例：キャンセル、保険、事前連絡）">
+    <button class="edit-toggle" id="editToggle">編集モード：オフ</button>
     <div class="progress-pill" id="progressPill">確認 0 / 0</div>
   </div>
+  <div class="save-note edit-only" id="saveNote" style="margin:-10px 0 16px 0;">内容の追加・編集・削除は、この端末のこのブラウザに保存されます。現時点では他の端末とは共有されません。</div>
 
   <div class="note-callout">
     <span class="eyebrow">運営からの視点整理メモ</span>
@@ -318,17 +441,20 @@
   <div id="panel-requester" class="panel hidden"></div>
   <div id="panel-ops" class="panel hidden"></div>
 
-
   <div class="no-match hidden" id="noMatch">該当する項目が見つかりませんでした。キーワードを変えてお試しください。</div>
 </main>
 
 <footer>
   <div class="hairline"></div>
-  現行版の管理について。本ルールブックは株式会社トレスの現行公式文書（業務マニュアル2026年6月22日版、利用規約2026年6月29日改訂260629MP、プライバシーポリシー2024年9月15日改訂）をもとに、社内確認用として整理したものです。規約本体および原本マニュアルの内容が優先されます。チェック状況はこの端末に保存され、他の閲覧者とは共有されません。
+  現行版の管理について。本ルールブックは株式会社トレスの現行公式文書（業務マニュアル2026年6月22日版、利用規約2026年6月29日改訂260629MP、プライバシーポリシー2024年9月15日改訂）をもとに、社内確認用として整理したものです。規約本体および原本マニュアルの内容が優先されます。編集モードでの追加・変更・削除、およびチェック状況は、いずれもこの端末のこのブラウザにのみ保存されます。
 </footer>
 
 <script>
-const DATA = {
+function genId(prefix){
+  return prefix + "-" + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+}
+
+const DEFAULT_DATA = {
   driver: {
     label: "ドライバー",
     accent: "driver",
@@ -338,140 +464,98 @@ const DATA = {
     },
     categories: [
       {
-        title: "アカウント・登録",
+        id: "d-c1", title: "アカウント・登録",
         subcats: [
-          {
-            h: "新規登録の流れ",
-            items: [
-              "利用規約・プライバシーポリシーへの同意後、法人か個人かを選択します",
-              "パスワードは8文字以上、英数字と特殊文字を組み合わせて設定します",
-              "個人版は入金先の銀行口座をプルダウンから選択します（手入力はできません）",
-              { t: "本人写真は顔がはっきり分かるものが必須です。サングラス・マスク・強い加工がある写真は承認されません", tag: "warn" },
-              "登録内容はサポートセンターの承認をもってログインが可能になります"
-            ]
-          }
+          { id: "d-s1", h: "新規登録の流れ", items: [
+            { id: "d-i1", t: "利用規約・プライバシーポリシーへの同意後、法人か個人かを選択します" },
+            { id: "d-i2", t: "パスワードは8文字以上、英数字と特殊文字を組み合わせて設定します" },
+            { id: "d-i3", t: "個人版は入金先の銀行口座をプルダウンから選択します（手入力はできません）" },
+            { id: "d-i4", t: "本人写真は顔がはっきり分かるものが必須です。サングラス・マスク・強い加工がある写真は承認されません", tag: "warn" },
+            { id: "d-i5", t: "登録内容はサポートセンターの承認をもってログインが可能になります" }
+          ]}
         ]
       },
       {
-        title: "業務の進め方",
+        id: "d-c2", title: "業務の進め方",
         subcats: [
-          {
-            h: "契約関係の理解",
-            items: [
-              "取引の当事者はご依頼店とドライバーであり、ドラクルは情報提供の場という位置づけです",
-              "契約するかどうかの最終判断はすべてご依頼店側が行います"
-            ]
-          },
-          {
-            h: "契約後のキャンセルに関する注意",
-            items: [
-              { t: "契約締結後でも、引取り前日までご依頼店都合でキャンセルとなる場合があります。アプリのこまめな確認をおすすめします", tag: "note" }
-            ]
-          },
-          {
-            h: "事前連絡の徹底",
-            items: [
-              "引取日の2日前と前日に、オーナーへの事前連絡が必須です",
-              "確認する内容は引取日時・住所、車種、車検の有無、自走可否です",
-              "電話でつながらない場合はSMSを送り、それでも不通のときは店舗担当者に確認します",
-              { t: "事前連絡やサポートセンターへの報告がない場合、キャンセルポリシーの内容にかかわらず報酬が支払われないことがあります", tag: "warn" }
-            ]
-          },
-          {
-            h: "業務開始と現地でのトラブル対応",
-            items: [
-              "業務開始ボタンの押し忘れに注意します",
-              { t: "オーナー不在・車検切れ・故障・ダブルブッキングなど、現地到着後のキャンセルは独断で判断せず、担当者へ連絡のうえ公式LINEへ報告します", tag: "warn" }
-            ]
-          },
-          {
-            h: "車両受取確認書の取り扱い",
-            items: [
-              "オーナーのサインを2部いただき、1部はオーナー、1部は店舗へ渡します",
-              "無人引取りの場合は担当者名を記入し、無人引取りである旨のメモを添えて1部をオーナーのポストへ投函します"
-            ]
-          }
+          { id: "d-s2", h: "契約関係の理解", items: [
+            { id: "d-i6", t: "取引の当事者はご依頼店とドライバーであり、ドラクルは情報提供の場という位置づけです" },
+            { id: "d-i7", t: "契約するかどうかの最終判断はすべてご依頼店側が行います" }
+          ]},
+          { id: "d-s3", h: "契約後のキャンセルに関する注意", items: [
+            { id: "d-i8", t: "契約締結後でも、引取り前日までご依頼店都合でキャンセルとなる場合があります。アプリのこまめな確認をおすすめします", tag: "note" }
+          ]},
+          { id: "d-s4", h: "事前連絡の徹底", items: [
+            { id: "d-i9", t: "引取日の2日前と前日に、オーナーへの事前連絡が必須です" },
+            { id: "d-i10", t: "確認する内容は引取日時・住所、車種、車検の有無、自走可否です" },
+            { id: "d-i11", t: "電話でつながらない場合はSMSを送り、それでも不通のときは店舗担当者に確認します" },
+            { id: "d-i12", t: "事前連絡やサポートセンターへの報告がない場合、キャンセルポリシーの内容にかかわらず報酬が支払われないことがあります", tag: "warn" }
+          ]},
+          { id: "d-s5", h: "業務開始と現地でのトラブル対応", items: [
+            { id: "d-i13", t: "業務開始ボタンの押し忘れに注意します" },
+            { id: "d-i14", t: "オーナー不在・車検切れ・故障・ダブルブッキングなど、現地到着後のキャンセルは独断で判断せず、担当者へ連絡のうえ公式LINEへ報告します", tag: "warn" }
+          ]},
+          { id: "d-s6", h: "車両受取確認書の取り扱い", items: [
+            { id: "d-i15", t: "オーナーのサインを2部いただき、1部はオーナー、1部は店舗へ渡します" },
+            { id: "d-i16", t: "無人引取りの場合は担当者名を記入し、無人引取りである旨のメモを添えて1部をオーナーのポストへ投函します" }
+          ]}
         ]
       },
       {
-        title: "禁止行為と身だしなみ",
+        id: "d-c3", title: "禁止行為と身だしなみ",
         subcats: [
-          {
-            h: "禁止行為（即時契約解除の対象）",
-            items: [
-              { t: "業務を行う意思のない受注、飲酒運転・交通違反、依頼外車両の搬送、指定経路以外の走行", tag: "warn" },
-              { t: "車両引取り後の無許可保管（運営やリクエスターの許可なく保管すること）", tag: "warn" },
-              { t: "燃料の誤給油など、走行不能を引き起こす行為（免責や修理費用の負担が発生する場合があります）", tag: "warn" },
-              { t: "正当な理由のないキャンセルの繰り返し、暴言・威圧的な言動、車検証等に不備がある車両の運転、ハラスメント行為", tag: "warn" }
-            ]
-          },
-          {
-            h: "身だしなみ規定",
-            items: [
-              "髪色は落ち着いたブラウン（トーン見本8番程度まで）とし、金髪・アッシュ・明るいメッシュは避けます",
-              "入れ墨は長袖・長ズボン等で完全に覆います。隠しきれない場合は絆創膏等でカバーします",
-              "派手なネイルや立体装飾は避けます",
-              "ビーチサンダル・タンクトップ・短パン・ミニスカート・ダメージジーンズ・パンプス・ロングブーツでの業務は避けます"
-            ]
-          }
+          { id: "d-s7", h: "禁止行為（即時契約解除の対象）", items: [
+            { id: "d-i17", t: "業務を行う意思のない受注、飲酒運転・交通違反、依頼外車両の搬送、指定経路以外の走行", tag: "warn" },
+            { id: "d-i18", t: "車両引取り後の無許可保管（運営やリクエスターの許可なく保管すること）", tag: "warn" },
+            { id: "d-i19", t: "燃料の誤給油など、走行不能を引き起こす行為（免責や修理費用の負担が発生する場合があります）", tag: "warn" },
+            { id: "d-i20", t: "正当な理由のないキャンセルの繰り返し、暴言・威圧的な言動、車検証等に不備がある車両の運転、ハラスメント行為", tag: "warn" }
+          ]},
+          { id: "d-s8", h: "身だしなみ規定", items: [
+            { id: "d-i21", t: "髪色は落ち着いたブラウン（トーン見本8番程度まで）とし、金髪・アッシュ・明るいメッシュは避けます" },
+            { id: "d-i22", t: "入れ墨は長袖・長ズボン等で完全に覆います。隠しきれない場合は絆創膏等でカバーします" },
+            { id: "d-i23", t: "派手なネイルや立体装飾は避けます" },
+            { id: "d-i24", t: "ビーチサンダル・タンクトップ・短パン・ミニスカート・ダメージジーンズ・パンプス・ロングブーツでの業務は避けます" }
+          ]}
         ]
       },
       {
-        title: "保険と事故対応",
+        id: "d-c4", title: "保険と事故対応",
         subcats: [
-          {
-            h: "保険の補償範囲",
-            items: [
-              "保険は三井住友海上、契約者は株式会社トレスです（証券番号 NC15732146）",
-              "対人・対物賠償は無制限です（対物には5万円の免責があります）",
-              "搭乗者傷害保険があり、死亡・後遺障害の場合2000万円等が補償されます",
-              "車両保険は時価での補償で、免責は10万円（軽四輪の中古車は3万円）です",
-              { t: "免責金額および補償限度額を超える部分はドライバー負担となります", tag: "note" }
-            ]
-          },
-          {
-            h: "保険が適用されないケース",
-            items: [
-              { t: "警察への届出がなく事故証明がない場合、登録ドライバー以外が運転した場合、無免許運転、酒気帯び運転、車検切れ車両での事故・故障", tag: "warn" }
-            ]
-          },
-          {
-            h: "緊急時対応の手順",
-            items: [
-              "ケガ人がいれば119番で救護を要請します",
-              "二次災害の防止を行います",
-              "警察へ連絡します（110番）",
-              "相手方と目撃者を確認します",
-              "保険会社（三井住友海上 0120-258-365、証券番号NC15732146、契約者名株式会社トレス）へ連絡します"
-            ]
-          },
-          {
-            h: "よくあるトラブル事例",
-            items: [
-              "燃料の誤給油は全額請求の対象になります",
-              "単独事故は保険が適用されますが、免責金額はドライバー負担です",
-              "故障やレッカー対応でJAF費用が発生した場合、いったん立替払いのうえ領収書を提出し、後日トレスが精算します（現地払いは現金かクレジットカードのみです）"
-            ]
-          }
+          { id: "d-s9", h: "保険の補償範囲", items: [
+            { id: "d-i25", t: "保険は三井住友海上、契約者は株式会社トレスです（証券番号 NC15732146）" },
+            { id: "d-i26", t: "対人・対物賠償は無制限です（対物には5万円の免責があります）" },
+            { id: "d-i27", t: "搭乗者傷害保険があり、死亡・後遺障害の場合2000万円等が補償されます" },
+            { id: "d-i28", t: "車両保険は時価での補償で、免責は10万円（軽四輪の中古車は3万円）です" },
+            { id: "d-i29", t: "免責金額および補償限度額を超える部分はドライバー負担となります", tag: "note" }
+          ]},
+          { id: "d-s10", h: "保険が適用されないケース", items: [
+            { id: "d-i30", t: "警察への届出がなく事故証明がない場合、登録ドライバー以外が運転した場合、無免許運転、酒気帯び運転、車検切れ車両での事故・故障", tag: "warn" }
+          ]},
+          { id: "d-s11", h: "緊急時対応の手順", items: [
+            { id: "d-i31", t: "ケガ人がいれば119番で救護を要請します" },
+            { id: "d-i32", t: "二次災害の防止を行います" },
+            { id: "d-i33", t: "警察へ連絡します（110番）" },
+            { id: "d-i34", t: "相手方と目撃者を確認します" },
+            { id: "d-i35", t: "保険会社（三井住友海上 0120-258-365、証券番号NC15732146、契約者名株式会社トレス）へ連絡します" }
+          ]},
+          { id: "d-s12", h: "よくあるトラブル事例", items: [
+            { id: "d-i36", t: "燃料の誤給油は全額請求の対象になります" },
+            { id: "d-i37", t: "単独事故は保険が適用されますが、免責金額はドライバー負担です" },
+            { id: "d-i38", t: "故障やレッカー対応でJAF費用が発生した場合、いったん立替払いのうえ領収書を提出し、後日トレスが精算します（現地払いは現金かクレジットカードのみです）" }
+          ]}
         ]
       },
       {
-        title: "報酬・支払い",
+        id: "d-c5", title: "報酬・支払い",
         subcats: [
-          {
-            h: "締め日と支払日",
-            items: [
-              "毎月15日締め、27日払いです（土日祝日の場合は前営業日払いになります）"
-            ]
-          },
-          {
-            h: "前払い申請制度（個人版のみ）",
-            items: [
-              "入金希望日の4営業日前までに申請します",
-              "手数料は1100円です",
-              { t: "毎月14日から16日は申請ができません", tag: "note" }
-            ]
-          }
+          { id: "d-s13", h: "締め日と支払日", items: [
+            { id: "d-i39", t: "毎月15日締め、27日払いです（土日祝日の場合は前営業日払いになります）" }
+          ]},
+          { id: "d-s14", h: "前払い申請制度（個人版のみ）", items: [
+            { id: "d-i40", t: "入金希望日の4営業日前までに申請します" },
+            { id: "d-i41", t: "手数料は1100円です" },
+            { id: "d-i42", t: "毎月14日から16日は申請ができません", tag: "note" }
+          ]}
         ]
       }
     ]
@@ -486,82 +570,58 @@ const DATA = {
     },
     categories: [
       {
-        title: "サービスの位置づけ",
+        id: "r-c1", title: "サービスの位置づけ",
         subcats: [
-          {
-            h: "契約主体とドラクルの役割",
-            items: [
-              "取引の当事者はご依頼店とドライバーであり、ドラクルは情報提供の場です",
-              "業務内容の決定やトラブル発生時の最終判断は、ドラクル運営ではなく契約当事者間で行っていただきます"
-            ]
-          }
+          { id: "r-s1", h: "契約主体とドラクルの役割", items: [
+            { id: "r-i1", t: "取引の当事者はご依頼店とドライバーであり、ドラクルは情報提供の場です" },
+            { id: "r-i2", t: "業務内容の決定やトラブル発生時の最終判断は、ドラクル運営ではなく契約当事者間で行っていただきます" }
+          ]}
         ]
       },
       {
-        title: "ドライバーとの連携",
+        id: "r-c2", title: "ドライバーとの連携",
         subcats: [
-          {
-            h: "事前連絡への対応",
-            items: [
-              "引取日の2日前・前日にドライバーから確認の連絡が入ります",
-              "引取日時・住所、車種、車検の有無、自走可否について正確な回答をお願いします"
-            ]
-          },
-          {
-            h: "契約後キャンセル時の対応",
-            items: [
-              { t: "契約締結後、引取り前日までであればご依頼店都合でのキャンセルが可能です。ドライバーへは早めのご連絡をお願いします", tag: "note" }
-            ]
-          },
-          {
-            h: "車両受取確認書への対応",
-            items: [
-              "オーナーのサインを2部ご用意いただきます（1部オーナー保管、1部店舗保管）",
-              "無人引取りの場合は、担当者名の記入と無人引取りである旨のメモが添付されたものが1部ポストに投函されます"
-            ]
-          }
+          { id: "r-s2", h: "事前連絡への対応", items: [
+            { id: "r-i3", t: "引取日の2日前・前日にドライバーから確認の連絡が入ります" },
+            { id: "r-i4", t: "引取日時・住所、車種、車検の有無、自走可否について正確な回答をお願いします" }
+          ]},
+          { id: "r-s3", h: "契約後キャンセル時の対応", items: [
+            { id: "r-i5", t: "契約締結後、引取り前日までであればご依頼店都合でのキャンセルが可能です。ドライバーへは早めのご連絡をお願いします", tag: "note" }
+          ]},
+          { id: "r-s4", h: "車両受取確認書への対応", items: [
+            { id: "r-i6", t: "オーナーのサインを2部ご用意いただきます（1部オーナー保管、1部店舗保管）" },
+            { id: "r-i7", t: "無人引取りの場合は、担当者名の記入と無人引取りである旨のメモが添付されたものが1部ポストに投函されます" }
+          ]}
         ]
       },
       {
-        title: "キャンセルポリシーの適用範囲",
+        id: "r-c3", title: "キャンセルポリシーの適用範囲",
         subcats: [
-          {
-            h: "報酬支払いに関わる取り扱い",
-            items: [
-              { t: "ドライバーからの事前連絡やサポートセンターへの報告がない場合、キャンセルポリシーの内容にかかわらず報酬が支払われないケースがあります", tag: "note" },
-              "現地到着後のトラブル（オーナー不在、車検切れ、故障、ダブルブッキング等）は、ドライバーが独断で判断せず担当者と運営へ連絡する仕組みになっています"
-            ]
-          }
+          { id: "r-s5", h: "報酬支払いに関わる取り扱い", items: [
+            { id: "r-i8", t: "ドライバーからの事前連絡やサポートセンターへの報告がない場合、キャンセルポリシーの内容にかかわらず報酬が支払われないケースがあります", tag: "note" },
+            { id: "r-i9", t: "現地到着後のトラブル（オーナー不在、車検切れ、故障、ダブルブッキング等）は、ドライバーが独断で判断せず担当者と運営へ連絡する仕組みになっています" }
+          ]}
         ]
       },
       {
-        title: "トラブル発生時の役割",
+        id: "r-c4", title: "トラブル発生時の役割",
         subcats: [
-          {
-            h: "事故・故障発生時の対応分担",
-            items: [
-              "事故や故障発生時、警察・保険会社への連絡はドライバーが行います",
-              "ご依頼店には状況確認へのご協力をお願いすることがあります"
-            ]
-          },
-          {
-            h: "燃料誤給油等が発生した場合",
-            items: [
-              "燃料の誤給油等は全額請求の対象となります"
-            ]
-          }
+          { id: "r-s6", h: "事故・故障発生時の対応分担", items: [
+            { id: "r-i10", t: "事故や故障発生時、警察・保険会社への連絡はドライバーが行います" },
+            { id: "r-i11", t: "ご依頼店には状況確認へのご協力をお願いすることがあります" }
+          ]},
+          { id: "r-s7", h: "燃料誤給油等が発生した場合", items: [
+            { id: "r-i12", t: "燃料の誤給油等は全額請求の対象となります" }
+          ]}
         ]
       },
       {
-        title: "個人情報の取り扱い",
+        id: "r-c5", title: "個人情報の取り扱い",
         subcats: [
-          {
-            h: "情報提供の範囲について",
-            items: [
-              { t: "本サービス提供を目的として、お客様に関する取得情報を他の利用者へ提供する場合があります（プライバシーポリシー第3条7号）", tag: "note" },
-              "個人情報の取り扱いに関するご相談は、サポートセンターまたは個人情報担当窓口までご連絡いただけます"
-            ]
-          }
+          { id: "r-s8", h: "情報提供の範囲について", items: [
+            { id: "r-i13", t: "本サービス提供を目的として、お客様に関する取得情報を他の利用者へ提供する場合があります（プライバシーポリシー第3条7号）", tag: "note" },
+            { id: "r-i14", t: "個人情報の取り扱いに関するご相談は、サポートセンターまたは個人情報担当窓口までご連絡いただけます" }
+          ]}
         ]
       }
     ]
@@ -576,114 +636,150 @@ const DATA = {
     },
     categories: [
       {
-        title: "三者間の立場整理",
+        id: "o-c1", title: "三者間の立場整理",
         subcats: [
-          {
-            h: "ドラクルの役割の確認",
-            items: [
-              "ドラクルは情報提供の場であり、契約判断・業務内容の決定・トラブルの最終判断には関与しません",
-              "問い合わせ対応は状況確認と橋渡しを目的とし、詰問や断定にならないよう構成します"
-            ]
-          },
-          {
-            h: "問い合わせ受付時間",
-            items: [
-              { t: "法人版・個人版ともに受付時間は9:00〜19:00です。法人版マニュアル記載の「10:00〜19:00」は誤記であり、訂正済みとして記録されています", tag: "warn" }
-            ]
-          }
+          { id: "o-s1", h: "ドラクルの役割の確認", items: [
+            { id: "o-i1", t: "ドラクルは情報提供の場であり、契約判断・業務内容の決定・トラブルの最終判断には関与しません" },
+            { id: "o-i2", t: "問い合わせ対応は状況確認と橋渡しを目的とし、詰問や断定にならないよう構成します" }
+          ]},
+          { id: "o-s2", h: "問い合わせ受付時間", items: [
+            { id: "o-i3", t: "法人版・個人版ともに受付時間は9:00〜19:00です。法人版マニュアル記載の「10:00〜19:00」は誤記であり、訂正済みとして記録されています", tag: "warn" }
+          ]}
         ]
       },
       {
-        title: "個人情報保護方針の遵守",
+        id: "o-c2", title: "個人情報保護方針の遵守",
         subcats: [
-          {
-            h: "取得情報の利用目的（プライバシーポリシー第2条）",
-            items: [
-              "本サービスの提供、内容の改良・新サービス開発のため",
-              "新機能・更新情報・キャンペーン等のご案内、メンテナンス等必要な連絡のため",
-              "お問い合わせへの回答（本人確認を含む）、利用状況のご報告のため",
-              "アンケート・取材協力の依頼、利用履歴の調査・分析のため",
-              { t: "マーケティング目的での、ウェブサイト・メールマガジン・営業用資料等における開示または公表のため", tag: "note" },
-              "規約違反者や不正・不当な目的での利用者の特定、利用お断りのため"
-            ]
-          },
-          {
-            h: "第三者提供が可能なケース（第3条）",
-            items: [
-              "人の生命・身体・財産の保護に必要で、本人の同意取得が困難な場合",
-              "業務委託や事業承継に伴い個人情報が提供される場合",
-              "本サービス提供を目的として他の利用者へ情報提供する場合",
-              "決済代行業者・業務委託先等、本サービスの運営に必要な第三者への提供",
-              "広告配信事業者等への提供、その他法令で認められる場合"
-            ]
-          },
-          {
-            h: "開示・訂正・利用停止への対応（第5〜7条）",
-            items: [
-              "開示請求には遅滞なく対応し、開示しない場合はその旨を遅滞なく通知します",
-              "誤った情報については、所定の手続きに従い訂正または削除を行います",
-              "利用目的の範囲を超えた取り扱いや不正取得を理由とする利用停止等の請求には、調査のうえ遅滞なく対応します"
-            ]
-          },
-          {
-            h: "苦情・相談窓口（第11・12条）",
-            items: [
-              "個人情報の取り扱いに関する苦情・相談は適切かつ迅速に対応します",
-              "個人情報担当窓口：株式会社トレス（東京都港区南青山2-2-15 ウィン青山942／Tel 03-6868-0942）"
-            ]
-          }
+          { id: "o-s3", h: "取得情報の利用目的（プライバシーポリシー第2条）", items: [
+            { id: "o-i4", t: "本サービスの提供、内容の改良・新サービス開発のため" },
+            { id: "o-i5", t: "新機能・更新情報・キャンペーン等のご案内、メンテナンス等必要な連絡のため" },
+            { id: "o-i6", t: "お問い合わせへの回答（本人確認を含む）、利用状況のご報告のため" },
+            { id: "o-i7", t: "アンケート・取材協力の依頼、利用履歴の調査・分析のため" },
+            { id: "o-i8", t: "マーケティング目的での、ウェブサイト・メールマガジン・営業用資料等における開示または公表のため", tag: "note" },
+            { id: "o-i9", t: "規約違反者や不正・不当な目的での利用者の特定、利用お断りのため" }
+          ]},
+          { id: "o-s4", h: "第三者提供が可能なケース（第3条）", items: [
+            { id: "o-i10", t: "人の生命・身体・財産の保護に必要で、本人の同意取得が困難な場合" },
+            { id: "o-i11", t: "業務委託や事業承継に伴い個人情報が提供される場合" },
+            { id: "o-i12", t: "本サービス提供を目的として他の利用者へ情報提供する場合" },
+            { id: "o-i13", t: "決済代行業者・業務委託先等、本サービスの運営に必要な第三者への提供" },
+            { id: "o-i14", t: "広告配信事業者等への提供、その他法令で認められる場合" }
+          ]},
+          { id: "o-s5", h: "開示・訂正・利用停止への対応（第5〜7条）", items: [
+            { id: "o-i15", t: "開示請求には遅滞なく対応し、開示しない場合はその旨を遅滞なく通知します" },
+            { id: "o-i16", t: "誤った情報については、所定の手続きに従い訂正または削除を行います" },
+            { id: "o-i17", t: "利用目的の範囲を超えた取り扱いや不正取得を理由とする利用停止等の請求には、調査のうえ遅滞なく対応します" }
+          ]},
+          { id: "o-s6", h: "苦情・相談窓口（第11・12条）", items: [
+            { id: "o-i18", t: "個人情報の取り扱いに関する苦情・相談は適切かつ迅速に対応します" },
+            { id: "o-i19", t: "個人情報担当窓口：株式会社トレス（東京都港区南青山2-2-15 ウィン青山942／Tel 03-6868-0942）" }
+          ]}
         ]
       },
       {
-        title: "事故・トラブル対応フロー",
+        id: "o-c3", title: "事故・トラブル対応フロー",
         subcats: [
-          {
-            h: "単独事故対応の基本フロー",
-            items: [
-              "119番（負傷者対応）→ 二次災害防止 → 110番（警察）→ 相手方確認 → 目撃者確認 → 保険会社連絡の順で対応します",
-              "保険会社連絡先：三井住友海上 0120-258-365、証券番号NC15732146、契約者名株式会社トレス、保険代理店は株式会社コアリスクレデンスです"
-            ]
-          },
-          {
-            h: "立替・精算フロー",
-            items: [
-              "JAF費用等は現場でドライバーが一時立替払いし、領収書提出後にトレスが精算します",
-              "現地払いは現金またはクレジットカードのみでの対応です"
-            ]
-          }
+          { id: "o-s7", h: "単独事故対応の基本フロー", items: [
+            { id: "o-i20", t: "119番（負傷者対応）→ 二次災害防止 → 110番（警察）→ 相手方確認 → 目撃者確認 → 保険会社連絡の順で対応します" },
+            { id: "o-i21", t: "保険会社連絡先：三井住友海上 0120-258-365、証券番号NC15732146、契約者名株式会社トレス、保険代理店は株式会社コアリスクレデンスです" }
+          ]},
+          { id: "o-s8", h: "立替・精算フロー", items: [
+            { id: "o-i22", t: "JAF費用等は現場でドライバーが一時立替払いし、領収書提出後にトレスが精算します" },
+            { id: "o-i23", t: "現地払いは現金またはクレジットカードのみでの対応です" }
+          ]}
         ]
       },
       {
-        title: "ドキュメント管理",
+        id: "o-c4", title: "ドキュメント管理",
         subcats: [
-          {
-            h: "現行版一覧",
-            items: [
-              "業務マニュアル（法人用・個人用）：2026年6月22日版",
-              "利用規約：260629MP（2026年6月29日改訂、2025年版は失効）",
-              "プライバシーポリシー：2024年9月15日改訂"
-            ]
-          },
-          {
-            h: "法人版・個人版の意図的な差異",
-            items: [
-              "受付時間表記の誤記訂正（法人版も9:00〜19:00が正）",
-              "前払い申請制度は個人版のみ（法人は請求書ベースの精算のため対象外）",
-              "無許可保管の文言差異（法人版「運営の許可なく」／個人版「リクエスターの許可なく」）"
-            ]
-          }
+          { id: "o-s9", h: "現行版一覧", items: [
+            { id: "o-i24", t: "業務マニュアル（法人用・個人用）：2026年6月22日版" },
+            { id: "o-i25", t: "利用規約：260629MP（2026年6月29日改訂、2025年版は失効）" },
+            { id: "o-i26", t: "プライバシーポリシー：2024年9月15日改訂" }
+          ]},
+          { id: "o-s10", h: "法人版・個人版の意図的な差異", items: [
+            { id: "o-i27", t: "受付時間表記の誤記訂正（法人版も9:00〜19:00が正）" },
+            { id: "o-i28", t: "前払い申請制度は個人版のみ（法人は請求書ベースの精算のため対象外）" },
+            { id: "o-i29", t: "無許可保管の文言差異（法人版「運営の許可なく」／個人版「リクエスターの許可なく」）" }
+          ]}
         ]
       }
     ]
   }
 };
 
-let checks = {};
-let STORAGE_KEY = "drakuru-rulebook-checks";
+let CONTENT = {};   // tabKey -> categories array (live, editable)
+let checks = {};    // personal check state, per device
+let openCats = { driver: new Set(), requester: new Set(), ops: new Set() };
 
+const CONTENT_KEY = tab => "drakuru-rulebook-content-" + tab;
+const CHECKS_KEY = "drakuru-rulebook-checks";
+
+function showToast(msg, isError){
+  let el = document.getElementById("toast");
+  if(!el){
+    el = document.createElement("div");
+    el.id = "toast";
+    el.style.position = "fixed";
+    el.style.left = "50%";
+    el.style.bottom = "24px";
+    el.style.transform = "translateX(-50%)";
+    el.style.padding = "10px 18px";
+    el.style.borderRadius = "6px";
+    el.style.fontSize = "13px";
+    el.style.fontFamily = "'Noto Sans JP', sans-serif";
+    el.style.zIndex = "999";
+    el.style.transition = "opacity .3s ease";
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.background = isError ? "#b3452f" : "#1c1e22";
+  el.style.color = "#fff";
+  el.style.opacity = "1";
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.opacity = "0"; }, 3200);
+}
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+async function loadContentForTab(tab){
+  try{
+    const res = await window.storage.get(CONTENT_KEY(tab), false);
+    CONTENT[tab] = res ? JSON.parse(res.value) : null;
+  }catch(e){
+    CONTENT[tab] = null;
+  }
+  if(!CONTENT[tab]){
+    CONTENT[tab] = JSON.parse(JSON.stringify(DEFAULT_DATA[tab].categories));
+    // 初期データが未保存の場合のみ、個人用ストレージへ書き込む（既存データは上書きしない）
+    await saveContentForTab(tab, { silent: true });
+  }
+}
+
+async function saveContentForTab(tab, opts){
+  opts = opts || {};
+  const maxRetries = 2;
+  let lastErr = null;
+  for(let attempt = 0; attempt <= maxRetries; attempt++){
+    try{
+      const result = await window.storage.set(CONTENT_KEY(tab), JSON.stringify(CONTENT[tab]), false);
+      if(!result){ throw new Error("empty result"); }
+      if(!opts.silent && attempt > 0){ showToast("保存できました"); }
+      return true;
+    }catch(e){
+      lastErr = e;
+      if(attempt < maxRetries){ await sleep(400 * (attempt + 1)); }
+    }
+  }
+  console.error("共有内容の保存に失敗しました", lastErr);
+  if(!opts.silent){
+    showToast("保存に失敗しました。この編集は画面には反映されていますが、時間をおいて再度保存をお試しください", true);
+  }
+  return false;
+}
 async function loadChecks(){
   try{
-    const res = await window.storage.get(STORAGE_KEY, false);
+    const res = await window.storage.get(CHECKS_KEY, false);
     checks = res ? JSON.parse(res.value) : {};
   }catch(e){
     checks = {};
@@ -691,62 +787,164 @@ async function loadChecks(){
 }
 async function saveChecks(){
   try{
-    await window.storage.set(STORAGE_KEY, JSON.stringify(checks), false);
+    await window.storage.set(CHECKS_KEY, JSON.stringify(checks), false);
   }catch(e){
-    console.error("保存に失敗しました", e);
+    console.error("確認状態の保存に失敗しました", e);
   }
 }
 
-function itemId(tabKey, ci, si, ii){
-  return tabKey + "-" + ci + "-" + si + "-" + ii;
+function escapeHtml(str){
+  const d = document.createElement("div");
+  d.textContent = str;
+  return d.innerHTML;
 }
 
-function renderPanel(tabKey){
-  const data = DATA[tabKey];
-  const container = document.getElementById("panel-" + tabKey);
+function renderPanel(tab){
+  const meta = DEFAULT_DATA[tab];
+  const cats = CONTENT[tab];
+  const container = document.getElementById("panel-" + tab);
   let html = "";
 
-  html += `<div class="stakeholder-intro ${data.accent}"><b>${data.intro.title}</b>${data.intro.text}</div>`;
+  html += `<div class="stakeholder-intro ${meta.accent}"><b>${escapeHtml(meta.intro.title)}</b>${escapeHtml(meta.intro.text)}</div>`;
 
-  data.categories.forEach((cat, ci) => {
-    html += `<div class="category ${data.accent}" data-cat>
+  cats.forEach((cat, ci) => {
+    const open = openCats[tab].has(cat.id);
+    html += `<div class="category ${meta.accent} ${open ? "open" : ""}" data-cat data-cat-id="${cat.id}">
       <div class="category-head">
         <div class="cat-num">${ci+1}</div>
-        <h2>${cat.title}</h2>
+        <h2 class="cat-title" data-cat-title="${cat.id}">${escapeHtml(cat.title)}</h2>
+        <button class="icon-btn edit-only" data-action="edit-cat" data-cat-id="${cat.id}" title="カテゴリ名を編集">✎</button>
+        <button class="icon-btn danger edit-only" data-action="del-cat" data-cat-id="${cat.id}" title="カテゴリを削除">✕</button>
         <div class="chev">▶</div>
       </div>
       <div class="category-body">`;
 
-    cat.subcats.forEach((sc, si) => {
-      html += `<div class="subcat" data-subcat><h3>${sc.h}</h3><ul class="items">`;
-      sc.items.forEach((it, ii) => {
-        const text = typeof it === "string" ? it : it.t;
-        const tag = typeof it === "string" ? null : it.tag;
-        const id = itemId(tabKey, ci, si, ii);
-        const isChecked = !!checks[id];
-        html += `<li class="item ${isChecked ? "checked" : ""}" data-item data-search="${text}">
-          <input type="checkbox" data-id="${id}" ${isChecked ? "checked" : ""}>
-          ${tag === "warn" ? '<span class="item-tag tag-warn">要注意</span>' : ""}
-          ${tag === "note" ? '<span class="item-tag tag-note">確認事項</span>' : ""}
-          <span>${text}</span>
+    cat.subcats.forEach(sc => {
+      html += `<div class="subcat" data-subcat data-subcat-id="${sc.id}">
+        <div class="subcat-head">
+          <h3 data-subcat-title="${sc.id}">${escapeHtml(sc.h)}</h3>
+          <button class="icon-btn edit-only" data-action="edit-sub" data-cat-id="${cat.id}" data-sub-id="${sc.id}" title="小見出しを編集">✎</button>
+          <button class="icon-btn danger edit-only" data-action="del-sub" data-cat-id="${cat.id}" data-sub-id="${sc.id}" title="小見出しを削除">✕</button>
+        </div>
+        <ul class="items">`;
+
+      sc.items.forEach(it => {
+        const isChecked = !!checks[it.id];
+        html += `<li class="item ${isChecked ? "checked" : ""}" data-item data-item-id="${it.id}" data-search="${escapeHtml(it.t)}">
+          <input type="checkbox" data-id="${it.id}" ${isChecked ? "checked" : ""}>
+          ${it.tag === "warn" ? '<span class="item-tag tag-warn">要注意</span>' : ""}
+          ${it.tag === "note" ? '<span class="item-tag tag-note">確認事項</span>' : ""}
+          <span class="item-text">${escapeHtml(it.t)}</span>
+          <button class="icon-btn edit-only" data-action="edit-item" data-cat-id="${cat.id}" data-sub-id="${sc.id}" data-item-id="${it.id}" title="項目を編集">✎</button>
+          <button class="icon-btn danger edit-only" data-action="del-item" data-cat-id="${cat.id}" data-sub-id="${sc.id}" data-item-id="${it.id}" title="項目を削除">✕</button>
         </li>`;
       });
-      html += `</ul></div>`;
+
+      html += `</ul>
+        <button class="add-link edit-only block" data-action="add-item" data-cat-id="${cat.id}" data-sub-id="${sc.id}">＋ 項目を追加</button>
+      </div>`;
     });
 
+    html += `<button class="add-link edit-only block" data-action="add-sub" data-cat-id="${cat.id}">＋ 小見出しを追加</button>`;
     html += `</div></div>`;
   });
+
+  html += `<button class="add-link edit-only block" data-action="add-cat" data-tab="${tab}">＋ 新しいカテゴリを追加</button>`;
 
   container.innerHTML = html;
 }
 
-function attachHandlers(){
-  document.querySelectorAll(".category-head").forEach(head => {
-    head.addEventListener("click", () => {
-      head.parentElement.classList.toggle("open");
+function findCat(tab, catId){ return CONTENT[tab].find(c => c.id === catId); }
+function findSub(tab, catId, subId){ return findCat(tab, catId).subcats.find(s => s.id === subId); }
+
+function activeTab(){ return document.querySelector(".tab-btn.active").dataset.tab; }
+
+async function rerender(tab){
+  renderPanel(tab);
+  attachHandlers(tab);
+  updateProgress();
+  applySearch();
+}
+
+function openInlineEditor(anchorEl, currentValue, onSave, opts){
+  opts = opts || {};
+  const row = document.createElement("div");
+  row.className = "inline-edit-row";
+  row.innerHTML = `
+    <input type="text" value="${escapeHtml(currentValue)}">
+    ${opts.withTag ? `<select>
+      <option value="">タグなし</option>
+      <option value="warn" ${opts.currentTag === "warn" ? "selected" : ""}>要注意</option>
+      <option value="note" ${opts.currentTag === "note" ? "selected" : ""}>確認事項</option>
+    </select>` : ""}
+    <button class="btn-small primary" data-role="save">保存</button>
+    <button class="btn-small" data-role="cancel">取消</button>
+  `;
+  anchorEl.replaceWith(row);
+  const input = row.querySelector("input[type=text]");
+  const select = row.querySelector("select");
+  input.focus();
+  input.select();
+  row.querySelector('[data-role="save"]').addEventListener("click", async () => {
+    const val = input.value.trim();
+    if(val === ""){ return; }
+    await onSave(val, select ? select.value : undefined);
+  });
+  row.querySelector('[data-role="cancel"]').addEventListener("click", () => {
+    rerender(activeTab());
+  });
+}
+
+function openConfirmDelete(anchorEl, onConfirm){
+  const row = document.createElement("span");
+  row.className = "confirm-row";
+  row.innerHTML = `本当に削除しますか<button class="btn-small danger" data-role="yes">削除する</button><button class="btn-small" data-role="no">取消</button>`;
+  anchorEl.replaceWith(row);
+  row.querySelector('[data-role="yes"]').addEventListener("click", onConfirm);
+  row.querySelector('[data-role="no"]').addEventListener("click", () => rerender(activeTab()));
+}
+
+function openAddForm(anchorBtn, placeholder, onAdd, opts){
+  opts = opts || {};
+  const row = document.createElement("div");
+  row.className = "inline-edit-row";
+  row.innerHTML = `
+    <input type="text" placeholder="${escapeHtml(placeholder)}">
+    ${opts.withTag ? `<select>
+      <option value="">タグなし</option>
+      <option value="warn">要注意</option>
+      <option value="note">確認事項</option>
+    </select>` : ""}
+    <button class="btn-small primary" data-role="save">追加</button>
+    <button class="btn-small" data-role="cancel">取消</button>
+  `;
+  anchorBtn.replaceWith(row);
+  const input = row.querySelector("input[type=text]");
+  const select = row.querySelector("select");
+  input.focus();
+  row.querySelector('[data-role="save"]').addEventListener("click", async () => {
+    const val = input.value.trim();
+    if(val === ""){ return; }
+    await onAdd(val, select ? select.value : undefined);
+  });
+  row.querySelector('[data-role="cancel"]').addEventListener("click", () => rerender(activeTab()));
+}
+
+function attachHandlers(tab){
+  const panel = document.getElementById("panel-" + tab);
+
+  panel.querySelectorAll(".category-head").forEach(head => {
+    head.addEventListener("click", (e) => {
+      if(e.target.closest("button")) return;
+      const catEl = head.parentElement;
+      const catId = catEl.dataset.catId;
+      if(openCats[tab].has(catId)){ openCats[tab].delete(catId); }
+      else{ openCats[tab].add(catId); }
+      catEl.classList.toggle("open");
     });
   });
-  document.querySelectorAll("input[type=checkbox][data-id]").forEach(cb => {
+
+  panel.querySelectorAll('input[type=checkbox][data-id]').forEach(cb => {
     cb.addEventListener("change", async () => {
       const id = cb.dataset.id;
       checks[id] = cb.checked;
@@ -755,28 +953,144 @@ function attachHandlers(){
       updateProgress();
     });
   });
+
+  panel.querySelectorAll('[data-action="edit-cat"]').forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const catId = btn.dataset.catId;
+      const cat = findCat(tab, catId);
+      const titleEl = panel.querySelector(`[data-cat-title="${catId}"]`);
+      openInlineEditor(titleEl, cat.title, async (val) => {
+        cat.title = val;
+        await saveContentForTab(tab);
+        rerender(tab);
+      });
+    });
+  });
+
+  panel.querySelectorAll('[data-action="del-cat"]').forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openConfirmDelete(btn, async () => {
+        const catId = btn.dataset.catId;
+        CONTENT[tab] = CONTENT[tab].filter(c => c.id !== catId);
+        await saveContentForTab(tab);
+        rerender(tab);
+      });
+    });
+  });
+
+  panel.querySelectorAll('[data-action="edit-sub"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const catId = btn.dataset.catId, subId = btn.dataset.subId;
+      const sub = findSub(tab, catId, subId);
+      const titleEl = panel.querySelector(`[data-subcat-title="${subId}"]`);
+      openInlineEditor(titleEl, sub.h, async (val) => {
+        sub.h = val;
+        await saveContentForTab(tab);
+        rerender(tab);
+      });
+    });
+  });
+
+  panel.querySelectorAll('[data-action="del-sub"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      openConfirmDelete(btn, async () => {
+        const catId = btn.dataset.catId, subId = btn.dataset.subId;
+        const cat = findCat(tab, catId);
+        cat.subcats = cat.subcats.filter(s => s.id !== subId);
+        await saveContentForTab(tab);
+        rerender(tab);
+      });
+    });
+  });
+
+  panel.querySelectorAll('[data-action="edit-item"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const catId = btn.dataset.catId, subId = btn.dataset.subId, itemId = btn.dataset.itemId;
+      const sub = findSub(tab, catId, subId);
+      const it = sub.items.find(i => i.id === itemId);
+      const textEl = btn.closest("li").querySelector(".item-text");
+      openInlineEditor(textEl, it.t, async (val, tag) => {
+        it.t = val;
+        it.tag = tag || undefined;
+        await saveContentForTab(tab);
+        rerender(tab);
+      }, { withTag: true, currentTag: it.tag });
+    });
+  });
+
+  panel.querySelectorAll('[data-action="del-item"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      openConfirmDelete(btn, async () => {
+        const catId = btn.dataset.catId, subId = btn.dataset.subId, itemId = btn.dataset.itemId;
+        const sub = findSub(tab, catId, subId);
+        sub.items = sub.items.filter(i => i.id !== itemId);
+        await saveContentForTab(tab);
+        rerender(tab);
+      });
+    });
+  });
+
+  panel.querySelectorAll('[data-action="add-item"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const catId = btn.dataset.catId, subId = btn.dataset.subId;
+      openAddForm(btn, "新しい項目を入力", async (val, tag) => {
+        const sub = findSub(tab, catId, subId);
+        sub.items.push({ id: genId("item"), t: val, tag: tag || undefined });
+        openCats[tab].add(catId);
+        await saveContentForTab(tab);
+        rerender(tab);
+      }, { withTag: true });
+    });
+  });
+
+  panel.querySelectorAll('[data-action="add-sub"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const catId = btn.dataset.catId;
+      openAddForm(btn, "新しい小見出しを入力", async (val) => {
+        const cat = findCat(tab, catId);
+        cat.subcats.push({ id: genId("sub"), h: val, items: [] });
+        openCats[tab].add(catId);
+        await saveContentForTab(tab);
+        rerender(tab);
+      });
+    });
+  });
+
+  panel.querySelectorAll('[data-action="add-cat"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      openAddForm(btn, "新しいカテゴリ名を入力", async (val) => {
+        const newCat = { id: genId("cat"), title: val, subcats: [] };
+        CONTENT[tab].push(newCat);
+        openCats[tab].add(newCat.id);
+        await saveContentForTab(tab);
+        rerender(tab);
+      });
+    });
+  });
 }
 
 function updateProgress(){
-  const activeTab = document.querySelector(".tab-btn.active").dataset.tab;
-  const boxes = document.querySelectorAll(`#panel-${activeTab} input[type=checkbox]`);
+  const tab = activeTab();
+  const boxes = document.querySelectorAll(`#panel-${tab} input[type=checkbox]`);
   let total = boxes.length, done = 0;
   boxes.forEach(b => { if(b.checked) done++; });
   document.getElementById("progressPill").textContent = `確認 ${done} / ${total}`;
 }
 
-function switchTab(tabKey){
-  document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tabKey));
+function switchTab(tab){
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
   document.querySelectorAll(".panel").forEach(p => p.classList.add("hidden"));
-  document.getElementById("panel-" + tabKey).classList.remove("hidden");
+  document.getElementById("panel-" + tab).classList.remove("hidden");
   updateProgress();
   applySearch();
 }
 
 function applySearch(){
   const q = document.getElementById("search").value.trim().toLowerCase();
-  const activeTab = document.querySelector(".tab-btn.active").dataset.tab;
-  const panel = document.getElementById("panel-" + activeTab);
+  const tab = activeTab();
+  const panel = document.getElementById("panel-" + tab);
   let anyVisible = false;
 
   panel.querySelectorAll("[data-cat]").forEach(cat => {
@@ -784,7 +1098,7 @@ function applySearch(){
     cat.querySelectorAll("[data-subcat]").forEach(sc => {
       let scHasMatch = false;
       sc.querySelectorAll("[data-item]").forEach(item => {
-        const text = item.dataset.search.toLowerCase();
+        const text = (item.dataset.search || "").toLowerCase();
         const match = q === "" || text.includes(q);
         item.classList.toggle("hidden", !match);
         if(match){ scHasMatch = true; }
@@ -795,7 +1109,9 @@ function applySearch(){
     cat.classList.toggle("hidden", !catHasMatch);
     if(catHasMatch){
       anyVisible = true;
-      if(q !== ""){ cat.classList.add("open"); }
+      if(q !== "" && !openCats[tab].has(cat.dataset.catId)){
+        cat.classList.add("open");
+      }
     }
   });
 
@@ -806,15 +1122,24 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => switchTab(btn.dataset.tab));
 });
 document.getElementById("search").addEventListener("input", applySearch);
+document.getElementById("editToggle").addEventListener("click", () => {
+  const on = document.body.classList.toggle("edit-mode");
+  document.getElementById("editToggle").textContent = on ? "編集モード：オン" : "編集モード：オフ";
+  document.getElementById("editToggle").classList.toggle("on", on);
+});
 
 (async function init(){
   await loadChecks();
+  for(const t of ["driver","requester","ops"]){
+    await loadContentForTab(t);
+  }
+  openCats.driver.add(CONTENT.driver[0]?.id);
   renderPanel("driver");
   renderPanel("requester");
   renderPanel("ops");
-  attachHandlers();
-  document.querySelector('.category[data-cat]')?.classList.add("open");
-  document.querySelectorAll('#panel-driver .category')[0]?.classList.add("open");
+  attachHandlers("driver");
+  attachHandlers("requester");
+  attachHandlers("ops");
   updateProgress();
 })();
 </script>
