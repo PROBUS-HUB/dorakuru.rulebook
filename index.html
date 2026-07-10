@@ -115,7 +115,7 @@ html,body{height:100%;background:var(--bg2);font-family:-apple-system,BlinkMacSy
 .cv-dow span:last-child{color:#93C5FD}
 /* カレンダーグリッド */
 .cv-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border)}
-.cv-cell{background:var(--bg);min-height:80px;padding:5px 4px 4px;position:relative;cursor:default;vertical-align:top}
+.cv-cell{background:var(--bg);min-height:88px;padding:5px 4px 4px;position:relative;cursor:default;vertical-align:top}
 .cv-cell.other{background:var(--bg2)}
 .cv-cell.is-today{background:#EFF6FF}
 .cv-cell.has-event{cursor:pointer}
@@ -125,8 +125,10 @@ html,body{height:100%;background:var(--bg2);font-family:-apple-system,BlinkMacSy
 .cv-cell.is-sun .cv-date-num{color:#B91C1C}
 .cv-cell.is-sat .cv-date-num{color:var(--blue)}
 .cv-today-circle{display:inline-flex;align-items:center;justify-content:center;background:var(--blue);color:#fff;border-radius:50%;width:20px;height:20px;font-size:11px;font-weight:700;line-height:1}
-.cv-event{display:block;font-size:10px;font-weight:700;padding:3px 5px;border-radius:4px;margin-bottom:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;line-height:1.4;cursor:pointer}
+.cv-event{display:block;font-size:10px;font-weight:700;padding:3px 5px;border-radius:4px;margin-bottom:2px;overflow:hidden;line-height:1.35;cursor:pointer}
 .cv-event:active{opacity:.75}
+.cv-event-type{font-size:9px;font-weight:600;opacity:.75;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cv-event-name{font-size:10px;font-weight:700;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cv-event.visit{background:var(--blue);color:#fff}
 .cv-event.contract-danger{background:var(--red-lt);color:var(--red);border:1px solid #FCA5A5}
 .cv-event.contract-warn{background:var(--amber-lt);color:var(--amber);border:1px solid #FCD34D}
@@ -749,10 +751,15 @@ function renderCalView(){
       ?`<span class="cv-date-num"><span class="cv-today-circle">${d}</span></span>`
       :`<span class="cv-date-num">${d}</span>`;
     // チップごとにクリックで詳細モーダルを開く（セル全体のonclickは廃止）
-    const evHtml=evs.slice(0,2).map(e=>
-      `<span class="cv-event ${e.type}" data-company-id="${e.id}" data-etype="${e.type}"
-        onclick="event.stopPropagation();openDayModal('${ds}')">${e.name}</span>`
-    ).join('');
+    const TYPE_LABEL={'visit':'訪問予定','contract-danger':'契約期限','contract-warn':'要更新','past-visit':'記録済'};
+    const evHtml=evs.slice(0,2).map(e=>{
+      const shortName=e.name.replace(/株式会社|有限会社|合同会社/g,'').trim();
+      return `<span class="cv-event ${e.type}" data-company-id="${e.id}" data-etype="${e.type}"
+        onclick="event.stopPropagation();openDayModal('${ds}')">
+        <span class="cv-event-type">${TYPE_LABEL[e.type]||''}</span>
+        <span class="cv-event-name">${shortName}</span>
+      </span>`;
+    }).join('');
     const moreHtml=evs.length>2
       ?`<span class="cv-more" onclick="event.stopPropagation();openDayModal('${ds}')">他${evs.length-2}件▶</span>`:'';
     // セル自体のクリックは予定なし日のみ何もしない（タップしても誤動作しない）
@@ -912,7 +919,9 @@ function initCalDrag(){
     holdTimer=setTimeout(()=>{
       dragging=true;
       srcChip.classList.add('dragging');
-      createGhost(chip.textContent.trim(),touch.clientX,touch.clientY);
+      const nameEl=chip.querySelector('.cv-event-name');
+      const ghostLabel=nameEl?nameEl.textContent.trim():chip.textContent.trim();
+      createGhost(ghostLabel,touch.clientX,touch.clientY);
     },500); // 500ms長押しでドラッグ開始
   },{passive:true});
 
